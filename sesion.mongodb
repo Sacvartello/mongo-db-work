@@ -1,0 +1,69 @@
+// show collections
+
+// db.student.insertOne({
+// 	firstName:'t',
+// 	lastName:'dent',
+//     age:30
+// })
+
+// db.student.find()
+
+// db.student.updateMany({
+// 	firstName:{
+// 		$exists: true
+// 	}},
+// 	{
+// 		$set:{
+// 			data:'good'
+// 		}
+// 	}
+// )
+
+// db.student.deleteMany({
+// 	data:'bad'
+// })
+
+db.createCollection('users',{
+	validator: {
+		$jsonSchema:{
+			required:['firstName','lastName'],
+			properties:{
+				firstName:{
+					bsonType:'string',
+					description:'must be string'
+				},
+				lastName:{
+					bsonType:'string',
+					description:'must be string'
+				},
+				birthday:{
+					bsonType:'date',
+					description:'must be date'
+				},
+				email:{
+					bsonType: 'string',
+					description:'must be string'
+				},
+				gender:{
+					bsonType:'string',
+					description:'must be string'
+				},
+				address:{
+					bsonType:'object',
+					required:['city','street'],
+					properties:{
+						city:{
+							bsonType:'string',
+							description:'must be string'
+						},
+						street:{
+							bsonType:'string',
+							description:'must be string'
+						}
+					}
+				}
+
+			}
+		}
+	}
+})
