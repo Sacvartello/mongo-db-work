@@ -1,0 +1,116 @@
+// db.students.drop()
+
+
+// db.createCollection('groups', {
+//     validator: {
+//         $jsonSchema: {
+//             bsonType: 'object',
+//             required: ['name'],
+//             properties: {
+//                 name: {
+//                     bsonType: 'string'
+//                 },
+//                 leadersName:{
+//                     bsonType:'string'
+//                 }
+//             }
+//         }
+//     }
+// });
+
+// db.groups.insertMany([{
+//     name: 'holi',
+//     leadersName:'hola'
+// },{
+//     name:'necruti'
+// },{
+//     name:'pizali'
+// }])
+
+// db.createCollection('students', {
+//     validator: {
+//         $jsonSchema: {
+//             bsonType: 'object',
+//             required: ['firstName', 'lastName','email'],
+//             properties: {
+//                 groupId:{
+//                     bsonType:'objectId'
+//                 },
+//                 firstName: {
+//                     bsonType: 'string'
+//                 },
+//                 lastName: {
+//                     bsonType: 'string'
+//                 },
+//                 email: {
+//                     bsonType: 'string',
+//                 },
+//                 birthday:{
+//                     bsonType: 'string'
+//                 }
+//             }
+//         }
+//     }
+// })
+
+// db.students.insertMany([{
+//     firstName: 'hola',
+//     lastName:'mina',
+//     email:'hsghjrjhfghf',
+//     groupId: new ObjectId('67d95e6a7eedccce81a81614')
+// },{
+//     firstName: 'rola',
+//     lastName:'mia',
+//     email:'angghf',
+//     groupId: new ObjectId('67d95e6a7eedccce81a81615')
+// },{
+//     firstName: 'yjdt',
+//     lastName:'htogf',
+//     email:'hsghjrolfdzsz',
+//     groupId: new ObjectId('67d95e6a7eedccce81a81615')
+// },{
+//     firstName: 'tohjg',
+//     lastName:'toa',
+//     email:'sjhfbcvhf',
+//     groupId: new ObjectId('67d95e6a7eedccce81a81616')
+// },{
+//     firstName: 'hollllllllllk',
+//     lastName:'migard',
+//     email:'ncpwqhf',
+//     groupId: new ObjectId('67d95e6a7eedccce81a81614')
+// }])
+
+//1
+// db.students.aggregate([{
+//     $lookup:{
+//         from:'groups',
+//         localField: 'groupId',
+//         foreignField:'_id',
+//         as: 'gr'
+//     }
+// },{
+//     $unwind: '$gr'
+// },{
+//     $unset: 'groupId'
+// }])
+
+//2
+db.students.aggregate([{
+    $lookup:{
+        from:'groups',
+        localField: 'groupId',
+        foreignField:'_id',
+        as: 'gr'
+    }
+},{
+    $unwind: '$gr'
+},{
+    $unset: 'groupId'
+},{
+    $group: {
+        _id: '$gr.name',
+        countPos: {
+            $count:{}
+        }
+    }
+}])
